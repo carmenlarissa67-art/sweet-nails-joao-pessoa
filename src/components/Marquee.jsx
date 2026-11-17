@@ -3,14 +3,14 @@ import { studioConfig } from '../data/studioData';
 
 export default function Marquee() {
   const items = studioConfig.categories.map((c) => c.title);
-  const row = [...items, ...items, ...items, ...items];
+  const row = [...items, ...items];
   return (
-    <div className="overflow-hidden border-y border-brand-300/70 bg-brand-50 py-4" aria-hidden="true">
+    <div className="marquee-wrap relative overflow-hidden bg-brand-800 py-4 border-y border-brand-900">
       <div className="marquee">
-        {row.map((t, i) => (
-          <span key={i} className="flex items-center whitespace-nowrap title-caps text-lg sm:text-xl px-7">
+        {[...row, ...row].map((t, i) => (
+          <span key={i} className="flex items-center font-serif italic text-xl sm:text-2xl text-brand-100 whitespace-nowrap px-6">
             {t}
-            <span className="ml-14 text-brand-400 text-sm">♥</span>
+            <span className="ml-12 text-champagne text-base not-italic">✦</span>
           </span>
         ))}
       </div>

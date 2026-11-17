@@ -205,7 +205,7 @@ export default function BookingModal({ isOpen, onClose, initialProcedure }) {
               <p className="text-sm text-ink-soft">Escolha o dia e o horário na agenda. Depois toque em <strong className="text-ink">Continuar</strong> para enviar o pedido pelo WhatsApp.</p>
               <div className="rounded-md overflow-hidden border border-brand-200 bg-white h-[460px]">
                 <iframe
-                  src={`${studioConfig.calendlyUrl}?embed_domain=${window.location.hostname}&embed_type=Inline&hide_gdpr_banner=1&background_color=fcf6f5&text_color=2c2224&primary_color=b65866`}
+                  src={`${studioConfig.calendlyUrl}?embed_domain=${window.location.hostname}&embed_type=Inline&hide_gdpr_banner=1&background_color=fdf7f8&text_color=3a1822&primary_color=984259`}
                   width="100%" height="100%" frameBorder="0" title="Agenda online" className="w-full h-full"
                 />
               </div>
