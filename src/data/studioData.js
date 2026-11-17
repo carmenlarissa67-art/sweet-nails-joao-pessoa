@@ -1,5 +1,5 @@
 // ==============================================================================
-// CONFIGURAÇÃO CENTRAL DA CLIENTE — SWEET NAILS STUDIO (JOÃO PESSOA)
+// CONFIGURAÇÃO CENTRAL DA CLIENTE: SWEET NAILS STUDIO (JOÃO PESSOA)
 // Toda a personalização do site fica neste arquivo.
 // Fonte dos dados: cards de valores e perfil do Instagram @sweetnailsjp.
 // ==============================================================================
@@ -9,7 +9,7 @@ export const studioConfig = {
   nameSuffix: "Studio",
   tagline: "Nail Studio em João Pessoa",
   subtitle:
-    "Alongamentos, banho em gel, esmaltação em gel, pé e mão e spa dos pés em Manaíra. Pensamos em cada detalhe para você sair se sentindo feliz e realizada.",
+    "Alongamento, banho em gel, esmaltação em gel, pé e mão e spa dos pés, em Manaíra. Pensamos em cada detalhe para você sair daqui feliz e realizada.",
   city: "João Pessoa, PB",
   address: "Av. Monteiro da Franca, 513 - Manaíra, João Pessoa - PB, 58038-190",
   mapsUrl:
@@ -18,11 +18,11 @@ export const studioConfig = {
   whatsappDisplay: "(83) 9828-0549",
   instagramHandle: "@sweetnailsjp",
   instagramUrl: "https://www.instagram.com/sweetnailsjp",
-  // Link do Calendly da cliente. Enquanto estiver vazio, o agendamento
-  // pede dia e período preferidos e confirma tudo pelo WhatsApp.
-  calendlyUrl: "",
+  // Link do Calendly. Nas demos usamos o Calendly padrão da Larissa.
+  // Se ficar vazio, o agendamento pede dia e período e confirma pelo WhatsApp.
+  calendlyUrl: "https://calendly.com/carbosalarissa/30min",
   workingHours: [
-    { days: "Terça a Sábado", hours: "09h às 12h • 13h às 18h" },
+    { days: "Terça a Sábado", hours: "09h às 12h e 13h às 18h" },
     { days: "Segunda", hours: "09h às 12h" },
     { days: "Domingo", hours: "Fechado" },
   ],
@@ -63,7 +63,7 @@ export const studioConfig = {
       maintenance: "Indicada de 25 a 30 dias",
       notes: [
         "Incluso esmaltação comum e cutilagem",
-        "Unha quebrada na tip: + R$ 10 • na fibra: + R$ 15",
+        "Unha quebrada: + R$ 10 na tip, + R$ 15 na fibra",
         "Valores não considerados para unhas extremas",
       ],
       items: [
@@ -139,12 +139,12 @@ export const studioConfig = {
       maintenance: "",
       notes: ["Serviço apenas de spa: não inclui cutilagem nem esmaltação"],
       items: [
-        { id: "spa-express", title: "Sweet Express • esfoliação e hidratação", price: 15 },
-        { id: "spa-classic", title: "Sweet Classic • Granado ou Natura, com massagem", price: 25 },
-        { id: "spa-classic-plus", title: "Sweet Classic Plus • produtos Avatim, com massagem", price: 40 },
-        { id: "spa-lavanda", title: "Spa Granado Lavanda • completo, com massagem nas mãos", price: 50 },
-        { id: "spa-premium", title: "Sweet Premium • remoção de calosidades", price: 50 },
-        { id: "spa-super-premium", title: "Sweet Super Premium • ofurô com sais ou geleia", price: 70, popular: true },
+        { id: "spa-express", title: "Sweet Express", detail: "Esfoliação e hidratação", price: 15 },
+        { id: "spa-classic", title: "Sweet Classic", detail: "Granado ou Natura, com massagem", price: 25 },
+        { id: "spa-classic-plus", title: "Sweet Classic Plus", detail: "Produtos Avatim, com massagem", price: 40 },
+        { id: "spa-lavanda", title: "Spa Granado Lavanda", detail: "Completo, com massagem nas mãos", price: 50 },
+        { id: "spa-premium", title: "Sweet Premium", detail: "Remoção de calosidades", price: 50 },
+        { id: "spa-super-premium", title: "Sweet Super Premium", detail: "Ofurô com sais ou geleia", price: 70, popular: true },
       ],
     },
     {

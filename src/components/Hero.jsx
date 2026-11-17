@@ -1,97 +1,83 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { studioConfig } from '../data/studioData';
-import { Calendar, MapPin, Clock, Sparkles, ArrowDown } from 'lucide-react';
+import { CalendarDays, Clock, MapPin } from 'lucide-react';
 
-const rotating = ['delicadas', 'resistentes', 'do seu jeito', 'impecáveis'];
+function IconRow({ icon: Icon, children, delay }) {
+  return (
+    <li className="rise flex items-center gap-4" style={{ '--d': `${delay}ms` }}>
+      <span className="w-11 h-11 shrink-0 rounded-full bg-brand-400 text-white flex items-center justify-center">
+        <Icon className="w-5 h-5" strokeWidth={1.6} />
+      </span>
+      <span className="text-sm text-ink">{children}</span>
+    </li>
+  );
+}
 
 export default function Hero({ onOpenBooking }) {
-  const [idx, setIdx] = useState(0);
-  const [spot, setSpot] = useState({ x: 70, y: 30 });
+  const imgRef = useRef(null);
 
+  // Leve parallax na foto ao rolar
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % rotating.length), 2600);
-    return () => clearInterval(t);
+    const el = imgRef.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const y = Math.min(window.scrollY, 700);
+        el.style.transform = `scale(${1.12 - y * 0.00012})`;
+      });
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
   }, []);
 
-  const handleMove = (e) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    setSpot({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
-  };
-
-  const headline = ['Unhas', 'lindas,'];
-
   return (
-    <section
-      onMouseMove={handleMove}
-      className="grain relative overflow-hidden -mt-20 pt-28 pb-16 md:pt-36 md:pb-24"
-      style={{ background: `radial-gradient(600px circle at ${spot.x}% ${spot.y}%, rgba(238,181,195,.45), transparent 60%), linear-gradient(180deg,#fbecef 0%,#fdf7f8 70%)` }}
-    >
-      <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-16 md:pt-16 md:pb-24 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center">
+        <div className="md:col-span-6">
+          <p className="rise text-xs font-medium text-ink-soft" style={{ '--d': '0ms' }}>
+            Manaíra, João Pessoa
+          </p>
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Texto */}
-        <div className="lg:col-span-7">
-          <div className="word-in inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 border border-brand-200 text-brand-800 text-xs font-semibold uppercase tracking-wider" style={{ animationDelay: '0ms' }}>
-            <Sparkles className="w-3.5 h-3.5 text-champagne-dark" />
-            <span>Manaíra • João Pessoa</span>
-          </div>
-
-          <h1 className="mt-6 font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.02] text-brand-950 tracking-tight">
-            {headline.map((w, i) => (
-              <span key={w} className="word-in mr-[0.25em]" style={{ animationDelay: `${120 + i * 120}ms` }}>{w}</span>
-            ))}
-            <br />
-            <span className="word-in italic text-brand-700" style={{ animationDelay: '380ms' }}>
-              <span key={idx} className="swap-word">{rotating[idx]}</span>
-            </span>
-            <br />
-            <span className="word-in" style={{ animationDelay: '500ms' }}>e sem complicação.</span>
+          <h1 className="mt-5 font-serif font-normal text-ink text-[2.75rem] leading-[1.02] sm:text-6xl lg:text-7xl tracking-tight">
+            <span className="rise-mask"><span style={{ '--d': '80ms' }}>Unhas sempre</span></span>
+            <span className="rise-mask"><span style={{ '--d': '180ms' }}><em className="text-brand-500 not-italic">bonitas</em> na correria</span></span>
+            <span className="rise-mask"><span style={{ '--d': '280ms' }}>do dia a dia.</span></span>
           </h1>
 
-          <p className="word-in mt-6 text-base sm:text-lg text-brand-900/75 max-w-xl leading-relaxed" style={{ animationDelay: '650ms' }}>
+          <p className="rise mt-6 text-[15px] leading-relaxed text-ink-soft max-w-md" style={{ '--d': '450ms' }}>
             {studioConfig.subtitle}
           </p>
 
-          <div className="word-in mt-8 flex flex-col sm:flex-row gap-3 sm:items-center" style={{ animationDelay: '780ms' }}>
+          <ul className="mt-8 space-y-3">
+            <IconRow icon={CalendarDays} delay={550}>Agende pelo site, a confirmação chega no WhatsApp</IconRow>
+            <IconRow icon={Clock} delay={620}>Terça a sábado, 9h às 12h e 13h às 18h</IconRow>
+            <IconRow icon={MapPin} delay={690}>Av. Monteiro da Franca, 513</IconRow>
+          </ul>
+
+          <div className="rise mt-9 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ '--d': '780ms' }}>
             <button
               onClick={() => onOpenBooking(null)}
-              className="shine group flex items-center justify-center gap-3 bg-brand-800 hover:bg-brand-900 text-white px-8 py-4 rounded-full text-base font-medium shadow-xl shadow-brand-900/20 hover:-translate-y-0.5 transition-all"
+              className="bg-brand-600 hover:bg-brand-700 text-white px-8 py-4 rounded-full text-sm font-semibold tracking-wide transition-colors"
             >
-              <Calendar className="w-5 h-5 group-hover:rotate-[-8deg] transition-transform" />
-              <span>Agendar meu horário</span>
+              Agendar meu horário
             </button>
-            <a href="#servicos" className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full text-brand-900 text-sm font-semibold border border-brand-300 bg-white/50 hover:bg-white transition-colors">
-              Ver valores
-              <ArrowDown className="w-4 h-4" />
+            <a href="#valores" className="text-sm font-semibold text-brand-600 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-600 transition-colors">
+              Ver tabela de valores
             </a>
-          </div>
-
-          <div className="word-in mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium text-brand-800" style={{ animationDelay: '900ms' }}>
-            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-brand-500" />{studioConfig.workingHoursShort}</span>
-            <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-brand-500" />Av. Monteiro da Franca, 513</span>
           </div>
         </div>
 
-        {/* Fotos */}
-        <div className="lg:col-span-5 relative h-[420px] sm:h-[480px]">
-          <div className="word-in absolute right-0 top-0 w-[68%]" style={{ animationDelay: '300ms' }}>
-            <div className="float-slow"><div className="rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-900/20 border-[6px] border-white rotate-[3deg]">
-              <img src={studioConfig.gallery[1].url} alt={studioConfig.gallery[1].tag} className="w-full h-72 sm:h-80 object-cover" />
-            </div></div>
-          </div>
-          <div className="word-in absolute left-0 bottom-0 w-[58%]" style={{ animationDelay: '520ms' }}>
-            <div className="float-slower"><div className="rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-900/20 border-[6px] border-white -rotate-[4deg]">
-              <img src={studioConfig.gallery[0].url} alt={studioConfig.gallery[0].tag} className="w-full h-60 sm:h-64 object-cover" />
-            </div></div>
-          </div>
-          <div className="word-in absolute right-2 bottom-6 sm:bottom-10 bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl border border-brand-100 flex items-center gap-3" style={{ animationDelay: '900ms' }}>
-            <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-emerald-600" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-brand-950">Agende em 1 minuto</p>
-              <p className="text-[11px] text-brand-700">Confirmação pelo WhatsApp</p>
-            </div>
+        <div className="md:col-span-6">
+          <div className="curtain relative aspect-[4/5] sm:aspect-[5/6] md:aspect-[4/5] rounded-t-[999px] rounded-b-md overflow-hidden bg-brand-200">
+            <img
+              ref={imgRef}
+              src={studioConfig.gallery[1].url}
+              alt="Unhas em marsala com detalhe dourado feitas na Sweet Nails"
+              className="absolute inset-0 w-full h-full object-cover will-change-transform"
+            />
           </div>
         </div>
       </div>
