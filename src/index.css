@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body { background: #fdf7f8; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #fdf7f8; }
+::-webkit-scrollbar-thumb { background: #eeb5c3; border-radius: 4px; }
+
+/* Revelação ao rolar a página (fade + subida + leve desfoque) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1), filter .9s ease;
+  transition-delay: var(--d, 0ms);
+}
+.reveal.is-visible { opacity: 1; transform: none; filter: none; }
+
+/* Título do hero: palavras entrando uma a uma */
+.word-in {
+  opacity: 0;
+  transform: translateY(0.6em) rotate(2deg);
+  filter: blur(8px);
+  animation: wordIn 1s cubic-bezier(.2,.7,.2,1) forwards;
+}
+@keyframes wordIn { to { opacity: 1; transform: none; filter: none; } }
+
+/* Palavra que troca no título */
+.swap-word { display: inline-block; animation: swapIn .7s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes swapIn {
+  from { opacity: 0; transform: translateY(.45em); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+
+/* Faixa infinita de serviços */
+.marquee { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee-wrap:hover .marquee { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Flutuação suave das fotos do hero */
+.float-slow { animation: floatY 7s ease-in-out infinite; }
+.float-slower { animation: floatY 9s ease-in-out infinite reverse; }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+/* Brilho passando no botão principal */
+.shine { position: relative; overflow: hidden; }
+.shine::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: shine 3.8s ease-in-out infinite;
+}
+@keyframes shine { 0%, 60% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+/* Pulso do botão de WhatsApp */
+.pulse-ring { position: relative; }
+.pulse-ring::before {
+  content: ""; position: absolute; inset: 0; border-radius: 9999px;
+  box-shadow: 0 0 0 0 rgba(16,185,129,.55);
+  animation: ring 2.4s ease-out infinite;
+}
+@keyframes ring { to { box-shadow: 0 0 0 16px rgba(16,185,129,0); } }
+
+.animate-fade-in { animation: fadeIn .35s ease both; }
+.animate-pop { animation: pop .45s cubic-bezier(.2,.9,.3,1.2) both; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+
+/* Grão sutil de papel */
+.grain::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.4 0 0 0 0 0.45 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal, .word-in { opacity: 1; transform: none; filter: none; }
+}
+
+span.word-in { display: inline-block; }
+.font-serif { font-variant-numeric: lining-nums; }
